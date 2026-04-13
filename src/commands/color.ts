@@ -13,12 +13,12 @@ export default class ColorCommand implements Command {
     const hex = interaction.options.getString('hex', true)
     const id = interaction.user.id
 
-    let hexsec = interaction.options.getString('hex_sec', false)
+    const hexsec = interaction.options.getString('hex_sec', false)
 
     if (!hex.match(/^#(?:[0-9a-fA-F]{3}){1,2}$/)) {
       interaction.editReply('이런! 이 봇은 아직 #rrggbb 포맷만 지원해요!')
       return
-    }    
+    }
 
     if (hexsec !== null && !hexsec.match(/^#(?:[0-9a-fA-F]{3}){1,2}$/)) {
       interaction.editReply('이런! 이 봇은 아직 #rrggbb 포맷만 지원해요!')
@@ -73,7 +73,13 @@ export default class ColorCommand implements Command {
       return
     }
 
-    roleCreated.setColor(parseInt(hex.replace('#', ''), 16))
+    roleCreated.edit({
+      colors: {
+        primaryColor: parseInt(hex.replace('#', ''), 16),
+        secondaryColor:
+          hexsec !== null ? parseInt(hexsec.replace('#', ''), 16) : undefined
+      }
+    })
 
     if (!isRoleAssigned) {
       memberRoles.add(roleCreated)
