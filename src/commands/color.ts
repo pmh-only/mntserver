@@ -13,7 +13,14 @@ export default class ColorCommand implements Command {
     const hex = interaction.options.getString('hex', true)
     const id = interaction.user.id
 
+    let hexsec = interaction.options.getString('hex_sec', false)
+
     if (!hex.match(/^#(?:[0-9a-fA-F]{3}){1,2}$/)) {
+      interaction.editReply('이런! 이 봇은 아직 #rrggbb 포맷만 지원해요!')
+      return
+    }    
+
+    if (hexsec !== null && !hexsec.match(/^#(?:[0-9a-fA-F]{3}){1,2}$/)) {
       interaction.editReply('이런! 이 봇은 아직 #rrggbb 포맷만 지원해요!')
       return
     }
@@ -53,7 +60,10 @@ export default class ColorCommand implements Command {
 
     if (!roleCreated) {
       const role = await guildRoles.create({
-        color: parseInt(hex.replace('#', ''), 16),
+        colors: {
+          primaryColor: parseInt(hex.replace('#', ''), 16),
+          secondaryColor: hexsec !== null ? parseInt(hexsec.replace('#', ''), 16) : undefined
+        },
         name: `color-${id}`,
         permissions: []
       })
@@ -80,5 +90,9 @@ export default class ColorCommand implements Command {
       .addStringOption((option) => option
         .setName('hex')
         .setRequired(true)
+        .setDescription('16진수 rgb색상 코드 (ex: #fafafa)'))
+      .addStringOption((option) => option
+        .setName('hex_sec')
+        .setRequired(false)
         .setDescription('16진수 rgb색상 코드 (ex: #fafafa)'))
 }
