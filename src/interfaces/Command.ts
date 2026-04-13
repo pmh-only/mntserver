@@ -1,6 +1,6 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js'
+import { ChatInputCommandInteraction, SlashCommandOptionsOnlyBuilder } from 'discord.js'
 
 export default interface Command {
   run: (args: ChatInputCommandInteraction) => any
-  metadata: SlashCommandBuilder | Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>
+  metadata: SlashCommandOptionsOnlyBuilder
 }

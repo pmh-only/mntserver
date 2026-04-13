@@ -1,6 +1,6 @@
 import Command from '../interfaces/Command'
 import { I } from '../aliases/discord.js.js'
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType, EmbedBuilder, GuildMember, SlashCommandBuilder } from 'discord.js'
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType, EmbedBuilder, GuildMember, SlashCommandBuilder, TextChannel } from 'discord.js'
 
 /** 추방 투표 명령어 */
 export default class kickvoteCommand implements Command {
@@ -50,7 +50,8 @@ export default class kickvoteCommand implements Command {
       new ActionRowBuilder<ButtonBuilder>()
         .addComponents(button)
 
-    const message = await interaction.channel?.send({
+    const channel = interaction.channel as TextChannel
+    const message = await channel?.send({
       content: `누군가가 \`${kickMemberName}\`님의 대한 추방 투표를 시작했습니다!`,
       embeds: [embed],
       components: [actionRow]

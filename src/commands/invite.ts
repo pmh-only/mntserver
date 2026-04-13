@@ -69,7 +69,7 @@ export default class PingCommand implements Command {
     const guild = interaction.guild as Guild
     const memberName = member.nickname ? `${member.nickname} (${member.user.tag})` : member.user.tag
 
-    interaction.channel?.send(`\`${memberName}\`가 1회용 초대 링크를 생성했어요!`)
+    channel?.send(`\`${memberName}\`가 1회용 초대 링크를 생성했어요!`)
 
     const invite = await guild.invites.create(channel, {
       maxUses: 1,
